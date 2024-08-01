@@ -3,6 +3,12 @@
 <head>
     <title>純屬好玩</title>
     <style>
+        body {
+            background-image: url('img/start.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
         .selected {
             background-color: lightyellow;
         }
@@ -16,13 +22,16 @@
             display: block;
             margin: 5px 0;
         }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>汪星人知多少?</h1>
-    <p>一共10題</p>
+    <h1 id="title">汪星人知多少?</h1>
+    <p id="description">一共10題</p>
     
-    <button onclick="startQuiz()">開始測驗</button>
+    <button id="startButton" onclick="startQuiz()">開始測驗</button>
     <div id="quiz"></div>
     <button class="next-button" onclick="nextQuestion()">下一題</button>
     <script>
@@ -88,6 +97,10 @@
             currentQuestion = 0;
             totalScore = 0;
             selectedOptionIndex = -1;
+            document.body.style.backgroundImage = "url('img/background.jpg')";
+            document.getElementById("title").classList.add("hidden");
+            document.getElementById("description").classList.add("hidden");
+            document.getElementById("startButton").classList.add("hidden");
             showQuestion();
         }
 
