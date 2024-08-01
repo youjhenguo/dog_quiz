@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>純屬好玩</title>
+    <style>
+        .selected {
+            background-color: lightyellow;
+        }
+        .next-button {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            display: none;
+        }
+        .option {
+            display: block;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>汪星人知多少?</h1>
+    <p>一共10題</p>
+    
+    <button onclick="startQuiz()">開始測驗</button>
+    <div id="quiz"></div>
+    <button class="next-button" onclick="nextQuestion()">下一題</button>
+    <script>
+        const questions = [
+            {
+                question: "No1.你家來了客人，狗狗看到有陌生人...",
+                options: ["我先聞看看喔", "迫不及待一起玩", "喔~是喔"],
+                scores: [10, 5, 2]
+            },
+            {
+                question: "No2.夏天好熱呀狗狗對於洗澡...",
+                options: ["不要啊!我永遠都不要洗咧", "好吧把拔馬麻這禮拜有帶我出去玩洗一次好啦", "愛乾淨的我當然是每天洗囉~"],
+                scores: [5, 10, 2]
+            },
+            {
+                question: "No3.狗狗睡覺時會...",
+                options: ["夢到跟把拔馬麻去搭雲霄飛車所以身體在抖", "雖然每天要睡12小時但會保持嗅覺和聽覺", "窩成一團睡是因為比較溫暖"],
+                scores: [5, 10, 2]
+            },
+            {
+                question: "No4.汪汪汪!其他狗狗向你家狗狗豎起尾巴方向平行地面...",
+                options: ["想衝去玩!", "欸你想幹嘛呀", "有敵意好像不友善喔"],
+                scores: [2, 5, 10]
+            },
+            {
+                question: "No5.狗狗看到貓貓...",
+                options: ["這是什麼可以吃嗎", "欸你為什麼要跑走", "人家想找你玩捏"],
+                scores: [2, 5, 10]
+            },
+            {
+                question: "No6.狗狗破壞家具...",
+                options: ["把拔馬麻太少帶我出去玩了嘛", "我就調皮(竊笑)", "釋放壓力"],
+                scores: [10, 2, 5]
+            },
+            {
+                question: "No7.狗狗坐車愛把頭伸出窗外...",
+                options: ["哇我跑好快好享受這種快感", "蒐集訊息看看主人帶我去哪", "為了要讓主人吃罰單"],
+                scores: [5, 10, 2]
+            },
+            {
+                question: "No8.狗狗的秘密...",
+                options: ["剛出生的狗狗視力超好", "鼻紋是獨一無二的", "喜歡被摸下巴"],
+                scores: [2, 10, 5]
+            },
+            {
+                question: "No9.狗狗能吃...",
+                options: ["巧克力", "肝臟類", "花椰菜"],
+                scores: [2, 5, 10]
+            },
+            {
+                question: "No10.狗狗在家門口焦躁不安...",
+                options: ["聞到把拔馬麻要回來了好興奮", "喔不!突然好想排解(秘)", "就晃晃而已啦人家哪有焦躁"],
+                scores: [10, 5, 2]
+            }
+
+            // 你可以在這裡添加更多問題
+        ];
+        let currentQuestion = 0;
+        let totalScore = 0;
+        let selectedOptionIndex = -1;
+
+        function startQuiz() {
+            currentQuestion = 0;
+            totalScore = 0;
+            selectedOptionIndex = -1;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestion < questions.length) {
+                const q = questions[currentQuestion];
+                let quizContent = `<p>${q.question}</p>`;
+                q.options.forEach((option, index) => {
+                    quizContent += `<button onclick="selectOption(${index})" class="option">${option}</button>`;
+                });
+                document.getElementById("quiz").innerHTML = quizContent;
+                document.querySelector('.next-button').style.display = 'none';
+            } else {
+                showResult();
+            }
+        }
+
+        function selectOption(index) {
+            selectedOptionIndex = index;
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, i) => {
+                option.classList.remove('selected');
+                if (i === index) {
+                    option.classList.add('selected');
+                }
+            });
+            document.querySelector('.next-button').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            if (selectedOptionIndex !== -1) {
+                totalScore += questions[currentQuestion].scores[selectedOptionIndex];
+                currentQuestion++;
+                selectedOptionIndex = -1;
+                showQuestion();
+            }
+        }
+
+        function showResult() {
+            let result = "";
+            if (totalScore >= 80) {
+                result = "金質狗狗主人";
+            } else if (totalScore >= 60) {
+                result = "銀質狗狗主人";
+            } else {
+                result = "銅質狗狗主人";
+            }
+            document.getElementById("quiz").innerHTML = `<p>你的分數是：${totalScore}</p><p>你是：${result}</p>`;
+            document.querySelector('.next-button').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
